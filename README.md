@@ -4,7 +4,7 @@ SynthMIDI, a synthesized dataset for a single-note classification training. The 
 The generated dataset can be found [here](https://drive.google.com/file/d/1I1I_YrAMK3kTH5AfSadMZMgzxA123pKE/view?usp=sharing).
 
 ## Commit History
-(25/06/2022) **initial commit 🧸** - Push the initial code. The only preprocessing function includes a simple noise injection and minor scaling.
+(25/06/2022) **initial commit 🍢** - Push the initial code. The only preprocessing function includes a simple noise injection and minor scaling.
 
 ## Requirements
 We assume the reader use docker to run this script, or else some modification will be needed. If you didn't have one, you can download it [here]().
@@ -12,8 +12,8 @@ We assume the reader use docker to run this script, or else some modification wi
 ## Usage
 To begin with, download or clone this repository. This can be done by running the following command:
 ```bash
-git clone ...
-cd ...
+git clone https://github.com/vistec-AI/SynthMIDI.git
+cd SynthMIDI
 ```
 
 ### Running on Docker
