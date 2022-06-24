@@ -1,0 +1,6 @@
+mido==1.2.10
+numpy==1.23.0
+scipy==1.8.1
+tqdm==4.64.0
+hydra-core==1.2.0
+pandas==1.4.3
