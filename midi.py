@@ -224,7 +224,7 @@ class MidiGenerator(object):
         
         labels = pd.read_csv(label_path).drop_duplicates()
         labels.to_csv(label_path, index=False)
-        total_duration = MidiGenerator.sec_to_hour(labels["duration"].sum())
+        total_duration = MidiGenerator.sec_to_hour(labels["duration"].sum() / self.sampling_rate)
         elapsed_time = time.time() - start_time
         logging.info(f"Finished generated dataset with a total of {len(labels)} samples.")
         logging.info(f"Time took: {elapsed_time:.4f} seconds.")
