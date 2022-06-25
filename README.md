@@ -9,7 +9,7 @@ The generated dataset can be found [here](https://drive.google.com/file/d/1I1I_Y
 ## Requirements
 We assume the reader use docker to run this script, or else some modification will be needed. If you didn't have one, you can download it [here]().
 
-## Usage
+## Usage: Generating Dataset
 To begin with, download or clone this repository. This can be done by running the following command:
 ```bash
 git clone https://github.com/vistec-AI/SynthMIDI.git
@@ -60,6 +60,9 @@ To create the dataset, run:
 python generate_datset.py
 ```
 
+## Usage: Training Baseline
+*TBD*
+
 ## Configuration
 The [`config.yaml`](conf/config.yaml) receives the following keys:
 |Key|Type|Description|
@@ -80,4 +83,4 @@ There're several improvements that can be done and I'll be add several feature n
 Chompakorn Chaksangchaichot
 
 ## Acknowledgement
-This works is made possible with several helps and guidance from N'Noppawat Tantisiriwat. Also, Kudos to the AI Builder Program and Aj. Ekapol Chuangsuwanich for making this dataset possible.
+This works is made possible with several helps and guidance from [Noppawat Tantisiriwat](https://github.com/Noppawat-Tantisiriwat). Also, Kudos to the AI Builder Program and Aj. Ekapol Chuangsuwanich for making this dataset possible.

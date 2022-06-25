@@ -2,20 +2,20 @@ import hashlib
 import logging
 import multiprocessing as mp
 import os
-from random import sample
 import time
+from random import sample
 from typing import List, Optional, Tuple
 
 import mido
 import numpy as np
 import pandas as pd
-from fluidsynth import FluidSynth
 from omegaconf import DictConfig
 from scipy.io import wavfile
 from tqdm.auto import tqdm
 
-from midi_enum import MidiNote, MidiProgram
-        
+from .enum import MidiNote, MidiProgram
+from .fluidsynth import FluidSynth
+
 
 class MidiNotes(object):
     
@@ -167,13 +167,15 @@ class MidiGenerator(object):
             program=program,
             note_position=position_idx
         )
-        save_path = f"{save_root}/wav/{note.value}{position_idx}_{program.name}_{i}.wav"
+
+        f_name = f"{note.value}{position_idx}_{program.name}_{i}"
+        save_path = f"{save_root}/wav/{f_name}.wav"
         label_path = f"{save_root}/labels.csv"
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         self.save_wav(wav, save_path)
 
         with open(label_path, "a") as f:
-            f.write(f"{save_path},{len(wav)},{program.name},{note.value}{position_idx},{note.value}\n")
+            f.write(f"{f_name},{len(wav)},{program.name},{note.value}{position_idx},{note.value}\n")
     
     def generate_dataset(
         self,

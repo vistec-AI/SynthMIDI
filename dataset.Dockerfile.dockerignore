@@ -1,6 +1,7 @@
 **/__pycache__
 **/*.ipynb*
 **/.DS_Store
+*.venv
 tmp
 dataset
 conf

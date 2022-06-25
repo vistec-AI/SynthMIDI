@@ -1,0 +1,80 @@
+feature:
+  torchaudio_backend: sox_io  # use soundfile for windows
+  feat_name: fbank
+  feat_param:
+    num_mel_bins: &n_feat 128
+
+data:
+  train:
+    csv_path: midisynth_dataset/train.csv
+    dataloader:
+      batch_size: 64
+      shuffle: True
+      num_workers: 12
+    
+  val:
+    csv_path: midisynth_dataset/test.csv
+    dataloader:
+      batch_size: 64
+      num_workers: 12
+
+  test:
+    csv_path: midisynth_dataset/test.csv
+    dataloader:
+      batch_size: 64
+      num_workers: 12
+
+trainer:
+  epochs: 100
+  optimizer: adam
+  learning_rate: 3e-4
+  loss_fn: crossentropy
+
+model:
+  channel_first: False
+  feat_dim: *n_feat
+  n_class: &n_class 12
+
+  cnn:
+    - in_channel: *n_feat
+      out_channel: 256
+      kernel_size: 7
+      stride: 1
+      padding: "same"
+      activation: "relu"
+
+    - in_channel: 256
+      out_channel: 512
+      kernel_size: 7
+      stride: 2
+      padding: "valid"
+      activation: "relu"
+
+    - in_channel: 512
+      out_channel: 512
+      stride: 1
+      kernel_size: 5
+      padding: "same"
+      activation: "relu"
+
+    - in_channel: 512
+      out_channel: 1024
+      stride: 2
+      kernel_size: 5
+      padding: "valid"
+      activation: "relu"
+
+  pooling: 
+    method: gap
+    dropout: 0.2
+
+  # rnn:
+  #   name: lstm
+  #   param:
+  #     input_size: 512
+  #     hidden_size: 512
+  #     bidirectional: True
+
+  linear:
+    - feat_in: 1024
+      feat_out: *n_class
