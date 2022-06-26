@@ -324,7 +324,7 @@ class Baseline(nn.Module):
             if (epoch+1) % save_every == 0:
                 weight_path = f"{checkpoint_dir}/epoch{epoch+1}.pt"
                 os.makedirs(os.path.dirname(weight_path), exist_ok=True)
-                logging.info("Saving weights at {weight_path}...")
+                logging.info(f"Saving weights at {weight_path}...")
                 torch.save(self.state_dict(), weight_path)
 
             logging.info(f"[EPOCH {epoch+1} / {epochs}]\nTrain Loss: {train_epoch_loss:.6f}\tTrain Accuracy: {train_epoch_acc*100:.2f}%\nValidation Loss: {val_epoch_loss:.6f}\tValidation Accuracy: {val_epoch_acc*100:.2f}%")
