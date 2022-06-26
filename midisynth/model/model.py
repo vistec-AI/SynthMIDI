@@ -1,3 +1,5 @@
+import logging
+import os
 import time
 from typing import Any, Dict, Optional
 
@@ -171,6 +173,8 @@ class Baseline(nn.Module):
         loss_fn: Loss = Loss.XENT,
         mixed_precision: bool = False,
         prog_bar: bool = True,
+        checkpoint_dir: str = "weights",
+        save_every: int = 1,
         wandb_apikey: Optional[str] = None,
         wandb_config: Optional[Dict[str, Any]] = None,
         wandb_project: Optional[str] = None,
@@ -316,6 +320,14 @@ class Baseline(nn.Module):
                         "Train Accuracy": train_epoch_acc,
                     })
                     train_iter.close()
+
+            if (epoch+1) % save_every == 0:
+                weight_path = f"{checkpoint_dir}/epoch{epoch+1}.pt"
+                os.makedirs(os.path.dirname(weight_path), exist_ok=True)
+                logging.info("Saving weights at {weight_path}...")
+                torch.save(self.state_dict(), weight_path)
+
+            logging.info(f"[EPOCH {epoch+1} / {epochs}]\nTrain Loss: {train_epoch_loss:.6f}\tTrain Accuracy: {train_epoch_acc*100:.2f}%\nValidation Loss: {val_epoch_loss:.6f}\tValidation Accuracy: {val_epoch_acc*100:.2f}%")
 
         return {
             "train_loss": train_losses,

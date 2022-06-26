@@ -56,10 +56,11 @@ class SynthMidiDataset(Dataset):
         sample = self.labels.iloc[index]
         label = self.class_mapper[sample["label"]]
         wav_path = sample["wav_path"]
+        wav_path = f"{self.data_root}/wav/{wav_path}"
+        if ".wav" not in wav_path:
+            wav_path += ".wav"
 
-        wav, sr = torchaudio.load(
-            f"{self.data_root}/wav/{wav_path}"
-        )
+        wav, sr = torchaudio.load(wav_path)
         feature = self.extract_feature(wav, sampling_rate=sr)
 
         return feature, label
