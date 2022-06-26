@@ -197,7 +197,8 @@ class Baseline(nn.Module):
         # setup optimizer
         self.set_optimizer(optimizer, learning_rate)
 
-        scaler = GradScaler()
+        if mixed_precision:
+            scaler = GradScaler()
 
         val_losses, train_losses = [], []
         val_accs, train_accs = [], []
@@ -218,6 +219,7 @@ class Baseline(nn.Module):
                 unit=" batch"
             ) if prog_bar else train_dataloader
             for idx, (x, y) in enumerate(train_iter):
+                x = x.to(self.device)
                 y = y.to(self.device)
                 self.optimizer.zero_grad()
 
@@ -274,6 +276,7 @@ class Baseline(nn.Module):
                 val_batch_losses = []
                 val_batch_accs = []
                 for x, y in val_dataloader:
+                    x = x.to(self.device)
                     y = y.to(self.device)
                     with torch.no_grad():
                         y_pred = self(x)
