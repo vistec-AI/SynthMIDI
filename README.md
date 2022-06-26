@@ -1,8 +1,6 @@
 # SynthMIDI Dataset
 SynthMIDI, a synthesized dataset for a single-note classification training. The dataset consists of a customizable data generation with all possible MIDI programs and notes. The goal of this dataset is to be used for the academic purpose.
 
-The generated dataset can be found [here](https://drive.google.com/file/d/1I1I_YrAMK3kTH5AfSadMZMgzxA123pKE/view?usp=sharing).
-
 ## Table of Content
 1. [Commit History](#commit-history)
 2. [Requirements](#requirements)
@@ -27,6 +25,11 @@ The generated dataset can be found [here](https://drive.google.com/file/d/1I1I_Y
 (25/06/2022) **initial commit 🍢** 
 - Push the initial code.
 - The only preprocessing function includes a simple noise injection and minor scaling
+
+## Dataset
+(26/06/2022) `midisynth_dataset-v1` ([download here](https://drive.google.com/file/d/1LkLNaKdqsDbIJeWm4jHJpAD2u6dH9CLW/view?usp=sharing))
+- The very first version of MIDI generated from `mido` library
+- The only augmentation applied was gaussian noise injection
 
 ## Requirements
 We assume the reader use docker to run this script, or else some modification will be needed. If you didn't have one, you can download it [here]().
@@ -104,10 +107,27 @@ cd SynthMIDI
 *TBA*
 
 ### Training on local
-*TBA*
+#### 1. Activate Virtual Environment (Optional)
+Make sure you use python 3.8.x!
+```bash
+python3 -m venv dataset.venv  # create virtual environment
+source dataset.venv/bin/activate  # activate virtual environment
+```
+
+#### 2. Install requirements
+```bash
+pip install -r train.requirements.txt
+```
+
+#### 3. Start Training
+Make sure your [config file](conf/baseline.yaml) was setup according to your environment. Once you finished setting up config file, run:
+```bash
+python train.py
+```
+Then, you're done!
 
 ### Training Configuration
-*TBA*
+See an example at [`baseline.yaml`](conf/baseline.yaml)
 
 ## Contributing
 There're several improvements that can be done and I'll be add several feature needed in the `issue` pannel. If you wish to contribute, fork this repository, and open the pull request.
