@@ -16,5 +16,5 @@ RUN pip install -U pip
 
 WORKDIR /workspace
 COPY . .
-RUN pip install -r requirements.txt
+RUN pip install -r dataset.requirements.txt
 ENTRYPOINT ["python", "generate_dataset.py"]

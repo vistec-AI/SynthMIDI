@@ -17,26 +17,39 @@ from .enum import MidiNote, MidiProgram
 from .fluidsynth import FluidSynth
 
 
-class MidiNotes(object):
+class MidiKeys(object):
     
     def __init__(self) -> None:
         self.notes = [note.value for note in list(MidiNote)]
         self.init_midi_notes()
         
     def get_midi_idx(self, note: MidiNote, position: Optional[int] = None) -> int:
-        midi_notes = self.note_mapper[note.value]
-        position = np.random.choice(len(midi_notes)) if position is None else position
-        return midi_notes[position]
+        midi_notes_dict = self.note_mapper[note.value]
+        position = np.random.choice(midi_notes_dict.keys()) if position is None else position
+        return midi_notes_dict[position]
     
     def init_midi_notes(self) -> None:
-        self.note_mapper = {note: [] for note in self.notes}
+        self.note_mapper = {note: {} for note in self.notes}
         
-        # midi notes ranged from 21-128
+        # midi notes ranged from 21-127
         # ref. https://www.inspiredacoustics.com/en/MIDI_note_numbers_and_center_frequencies
-        for i in range(21, 128):
-            for note_idx, note in enumerate(self.notes):
-                if i % len(self.notes) == note_idx:
-                    self.note_mapper[note].append(i)
+        # notes started at A0, A#0, B0, C1, ...
+        self.note_mapper["A"][0] = 21
+        self.note_mapper["A#"][0] = 22
+        self.note_mapper["B"][0] = 23
+
+        note_iter = iter(self.notes)
+        iter_count = 1
+        for i in range(24, 128):
+            has_next = next(note_iter, False)
+            if not has_next:
+                note_iter = iter(self.notes)
+                iter_count += 1
+                note = next(note_iter)
+            else:
+                note = has_next
+            
+            self.note_mapper[note][iter_count] = i
                     
                     
 class MidiGenerator(object):
@@ -51,7 +64,7 @@ class MidiGenerator(object):
         self.max_duration = max_duration
         self.fluid_synth = FluidSynth(sampling_rate=self.sampling_rate)
         
-        self.midi_notes = MidiNotes()
+        self.midi_notes = MidiKeys()
         self.programs = list(MidiProgram)
         
     def get_random_duration(
@@ -77,7 +90,7 @@ class MidiGenerator(object):
         wav = wav / wav.max()  # normalize audio
         wav = wav * np.random.uniform(low=0.75, high=1.)  # random audio level
         wav = wav + np.random.normal(
-            scale=np.random.uniform(low=1e-5, high=1e-2), 
+            scale=np.random.uniform(low=0, high=1e-3), 
             size=wav.shape
         )  # inject some small noise
     
@@ -161,7 +174,7 @@ class MidiGenerator(object):
         return wav
 
     def _process_item(self, item: Tuple[MidiNote, MidiProgram, int, int, str]) -> None:
-        note, program, position_idx, i, save_root = item
+        note, program, position_idx, key_number, i, save_root = item
         wav = self.generate_midi_note(
             note=note,
             program=program,
@@ -175,7 +188,7 @@ class MidiGenerator(object):
         self.save_wav(wav, save_path)
 
         with open(label_path, "a") as f:
-            f.write(f"{f_name},{len(wav)},{program.name},{note.value}{position_idx},{note.value}\n")
+            f.write(f"{f_name},{len(wav)},{program.name},{key_number},{note.value}{position_idx},{note.value}\n")
     
     def generate_dataset(
         self,
@@ -200,17 +213,17 @@ class MidiGenerator(object):
         # initialize labels
         label_path = f"{save_root}/labels.csv"
         with open(label_path, "w") as f:
-            f.write(f"wav_path,duration,instrument,note,label\n")
+            f.write(f"wav_path,duration,instrument,key_number,note,label\n")
         
         # initialize spaces
         iter_spaces = []
         for note in available_notes:
             for program in available_program:
                 note_positions = self.midi_notes.note_mapper[note.value]
-                for position_idx in range(len(note_positions)):
+                for position_idx, key_number in note_positions.items():
                     for i in range(samples_per_program_note):
                         iter_spaces.append(
-                            (note, program, position_idx, i, save_root)
+                            (note, program, position_idx, key_number, i, save_root)
                         )
 
         logging.info(f"Starting generation...")

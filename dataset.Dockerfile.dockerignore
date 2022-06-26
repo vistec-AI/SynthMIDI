@@ -3,5 +3,6 @@
 **/.DS_Store
 *.venv
 tmp
-dataset
+midisynth_dataset
 conf
+outputs
