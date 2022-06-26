@@ -7,20 +7,20 @@ feature:
 
 data:
   train:
-    csv_path: midisynth_dataset-v1/train.csv
+    csv_path: midisynth_dataset-v1/stratify-notes/train.csv
     dataloader:
       batch_size: 64
       shuffle: True
       num_workers: 12
     
   val:
-    csv_path: midisynth_dataset-v1/test.csv
+    csv_path: midisynth_dataset-v1/stratify-notes/val.csv
     dataloader:
       batch_size: 64
       num_workers: 12
 
   test:
-    csv_path: midisynth_dataset-v1/test.csv
+    csv_path: midisynth_dataset-v1/stratify-notes/test.csv
     dataloader:
       batch_size: 64
       num_workers: 12
