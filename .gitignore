@@ -4,5 +4,5 @@
 *.venv
 tmp
 
-midisynth_dataset/
+midisynth_dataset*/
 outputs
