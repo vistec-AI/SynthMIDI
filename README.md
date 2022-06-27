@@ -147,7 +147,8 @@ See an example at [`baseline.yaml`](conf/baseline.yaml)
 We construct two baseline for this experiment:
 1. Stratify splitting - Simply apply stratify splitting the dataset.
 2. Leave instrument out - Leaving specific instruments out as a testing data. This is way more challenging.
-*For **Leave instrument out** setting, it's better to conduct it in a k-fold cross validation setting, but I'll leave this as an open contribution.
+
+\*For **Leave instrument out** setting, it's better to conduct it in a k-fold cross validation setting, but I'll leave this as an open contribution.
 
 ### Results
 |Test Set|Accuracy|Precision|Recall|F1-Score|
