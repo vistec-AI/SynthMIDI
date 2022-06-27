@@ -154,6 +154,7 @@ We construct two baseline for this experiment:
 |:------:|:------:|:-------:|:----:|:------:|
 |Stratify spliting|97.00%|97.05%|97.02%|97.02%|
 |Leave instrument out|64.30%|69.86%|64.33%|64.81%|
+
 *Precision, Recall, and F1 are computed using macro average
 
 ## Contributing
