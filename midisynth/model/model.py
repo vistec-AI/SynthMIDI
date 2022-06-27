@@ -332,6 +332,11 @@ class Baseline(nn.Module):
 
             logging.info(f"[EPOCH {epoch+1} / {epochs}]\nTrain Loss: {train_epoch_loss:.6f}\tTrain Accuracy: {train_epoch_acc*100:.2f}%\nValidation Loss: {val_epoch_loss:.6f}\tValidation Accuracy: {val_epoch_acc*100:.2f}%")
 
+        logging.info(f"Saving last model...")
+        weight_path = f"{checkpoint_dir}/final.pt"
+        os.makedirs(os.path.dirname(weight_path), exist_ok=True)
+        torch.save(self.state_dict(), weight_path)
+        logging.info(f"Model saved at {weight_path}")
         return {
             "train_loss": train_losses,
             "train_acc": train_accs,
