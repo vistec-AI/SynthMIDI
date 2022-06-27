@@ -1,4 +1,4 @@
-# dataset_path: /path/to/saved/dataset. # don't uncomment this if you're running on docker
+# dataset_path: /path/to/saved/dataset  # don't uncomment this if you're running on docker
 num_workers: -1
 sampling_rate: 22050
 # total number of samples = len(available_notes) * len(available_program) * samples_per_program_note
