@@ -12,14 +12,17 @@ SynthMIDI, a synthesized dataset for a single-note classification training. The 
     - [Training on Docker](#training-on-docker)
     - [Training on local](#training-on-local)
     - [Training config](#training-configuration)
-5. [Contributing](#contributing)
-6. [Author](#author)
-7. [Acknowledgement](#acknowledgement)
+5. [Baseline](#baseline)
+    - [Stratify Splitting]()
+    - [Leave Instrument Out]()
+6. [Contributing](#contributing)
+7. [Author](#author)
+8. [Acknowledgement](#acknowledgement)
 
 ## Commit History
 (26/06/2022) **Refactor code structures 🪡**
 - Refactor code structure to isolate training and data generation pipeline
-- Note generation mapped the keys wrongly
+- Fix bugs where note generation mapped the keys wrongly
 - Add customizable baseline model training pipeline
 
 (25/06/2022) **initial commit 🍢** 
@@ -47,14 +50,14 @@ We recommend you to run this script using docker, as we test only on a docker en
 #### 1. Building Docker
 To build the docker, run:
 ```bash
-docker build -t synthmidi-generator -f dataset.Dockerfile .
+docker build -t synthmidi/data-generator -f dataset.Dockerfile .
 ```
 Once finished, you should have a built image on your docker. Run `docker images` to see if the image was built properly.
 
 #### 2. Generating Dataset with Docker
 Once you've built the docker, run the following command on your terminal:
 ```bash
-docker run -it -v $PWD/conf:/workspace/conf -v /path/to/saved/dataset:/root/dataset --name your-docker-container-name synthmidi-generator
+docker run -it -v $PWD/conf:/workspace/conf -v /path/to/saved/dataset:/root/dataset --name your-docker-container-name synthmidi/data-generator
 ```
 
 ### Running on local
@@ -104,7 +107,18 @@ cd SynthMIDI
 ```
 
 ### Training on Docker
-*TBA*
+
+#### 1. Building Docker
+```bash
+docker build -t synthmidi/trainer -f train.Dockerfile .
+```
+Once finished, you should have a built image on your docker. Run `docker images` to see if the image was built properly.
+
+#### 2. Start Training
+Once you have built your docker, run the following commands:
+```bash
+docker run -it -v $PWD/conf:/workspace/conf -v /path/to/saved/weights:/workspace/weights --shm-size=16G --name synthmidi-trainer synthmidi/trainer
+```
 
 ### Training on local
 #### 1. Activate Virtual Environment (Optional)
@@ -128,6 +142,19 @@ Then, you're done!
 
 ### Training Configuration
 See an example at [`baseline.yaml`](conf/baseline.yaml)
+
+## Baseline
+We construct two baseline for this experiment:
+1. Stratify splitting - Simply apply stratify splitting the dataset.
+2. Leave instrument out - Leaving specific instruments out as a testing data. This is way more challenging.
+*For **Leave instrument out** setting, it's better to conduct it in a k-fold cross validation setting, but I'll leave this as an open contribution.
+
+### Results
+|Test Set|Accuracy|Precision|Recall|F1-Score|
+|:------:|:------:|:-------:|:----:|:------:|
+|Stratify spliting|97.00%|97.05%|97.02%|97.02%|
+|Leave instrument out|64.30%|69.86%|64.33%|64.81%|
+*Precision, Recall, and F1 are computed using macro average
 
 ## Contributing
 There're several improvements that can be done and I'll be add several feature needed in the `issue` pannel. If you wish to contribute, fork this repository, and open the pull request.
