@@ -7,20 +7,20 @@ feature:
 
 data:
   train:
-    csv_path: midisynth_dataset-v1/stratify-notes/train.csv
+    csv_path: midisynth_dataset-v1/leave-instrument-out/train.csv
     dataloader:
       batch_size: 64
       shuffle: True
       num_workers: 12
     
   val:
-    csv_path: midisynth_dataset-v1/stratify-notes/val.csv
+    csv_path: midisynth_dataset-v1/leave-instrument-out/test.csv
     dataloader:
       batch_size: 64
       num_workers: 12
 
   test:
-    csv_path: midisynth_dataset-v1/stratify-notes/test.csv
+    csv_path: midisynth_dataset-v1/leave-instrument-out/test.csv
     dataloader:
       batch_size: 64
       num_workers: 12
@@ -31,7 +31,7 @@ trainer:
   learning_rate: 3e-4
   loss_fn: crossentropy
   checkpoint_dir: weights
-  save_every: 1  # epoch
+  save_every: 5  # epoch
 
 model:
   channel_first: False
