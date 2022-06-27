@@ -148,6 +148,8 @@ We construct two baseline for this experiment:
 1. Stratify splitting - Simply apply stratify splitting the dataset.
 2. Leave instrument out - Leaving specific instruments out as a testing data. This is way more challenging.
 
+The split file and the whole dataset was available on [dataset section](#dataset)
+
 \*For **Leave instrument out** setting, it's better to conduct it in a k-fold cross validation setting, but I'll leave this as an open contribution.
 
 ### Results
