@@ -167,4 +167,4 @@ There're several improvements that can be done and I'll be add several feature n
 Chompakorn Chaksangchaichot
 
 ## Acknowledgement
-This works is made possible with several helps and guidance from [Noppawat Tantisiriwat](https://github.com/Noppawat-Tantisiriwat). Also, Kudos to the AI Builder Program and Aj. Ekapol Chuangsuwanich for making this dataset possible.
+This works is made possible with several helps and guidance from [Noppawat Tantisiriwat](https://github.com/Noppawat-Tantisiriwat). Also, Kudos to the [AI Builder Program](https://www.facebook.com/aibuildersx/), [P' Charin Polpanumas](https://github.com/cstorm125) and [Aj. Ekapol Chuangsuwanich](https://ekapolc.github.io/) for making this dataset possible.
